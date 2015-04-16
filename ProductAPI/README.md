@@ -34,3 +34,9 @@ pip install flask-httpauth`
 #Docker
 command to build the docker image for the product's application
 > docker build -t shinkei/proyectox:alpha .
+
+command to run the database and prepare the linking
+> docker run -d --name db mongo
+
+command to start the application and linked it with the database container
+> docker run -d -P --name productoapi --link db:db shinkei/proyectox /bin/bash
