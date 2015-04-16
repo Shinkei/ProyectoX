@@ -5,7 +5,13 @@
 
 ##Instalation
 >Just to consider this commands, We use virtualenvwrapper to isolate the project
-`mkvirtualenv projectAPI`
+`
+####Virtualenvwrapper
+sudo pip install virtualenv virtualenvwrapper
+
+echo -e "\n# virtualenvwrapper\nsource /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
+
+mkvirtualenv projectAPI
 pip install flask
 pip install pep8
 pip install pyflakes
@@ -24,3 +30,7 @@ pip install flask-httpauth`
 `curl -i -H "Content-Type: application/json" -X PUT -d '{"name":"perro","product_type":"tipo de perro"}' http://localhost:5000/proyectox/v1/products/5521bf3ee555c0249d496250`
 * To delete a product:  
 `curl -i -H "Content-Type: application/json" -X DELETE http://localhost:5000/proyectox/v1/products/5521bf3ee555c0249d496250`
+
+#Docker
+command to build the docker image for the product's application
+> docker build -t shinkei/proyectox:alpha .
