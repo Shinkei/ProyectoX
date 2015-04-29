@@ -10,8 +10,8 @@ from flask.ext.restful import Resource, reqparse, fields, marshal
 
 @auth.get_password
 def get_password(username):
-    if username == 'miguel':
-        return 'python'
+    if username == 'manito':
+        return 'proyectox'
     return None
 
 
