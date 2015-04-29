@@ -18,7 +18,7 @@ echo -e "\n# virtualenvwrapper\nsource /usr/local/bin/virtualenvwrapper.sh" >> ~
 `pip install mongoengine`  
 `pip install flask_mongoengine`  
 `pip install flask-httpauth`  
-
+`pip install pymongo==2.8 # there is an error with the verson 3`
 
 ##Curl Examples
 > * To find all the products:  
