@@ -40,4 +40,4 @@ command to run the database and prepare the linking
 > docker run -d --name db mongo
 
 command to start the application and linked it with the database container
-> docker run -d -P --name productoapi --link db:db shinkei/proyectox /bin/bash
+> docker run -d -P --name productoapi -v <<path_to_the_proyect>>:/home/proyectox --link db:db shinkei/proyectox /bin/bash
