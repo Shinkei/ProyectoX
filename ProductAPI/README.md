@@ -54,3 +54,6 @@ command to run the database and prepare the linking
 
 command to start the application and linked it with the database container
 > docker run -d -p 5000:5000 --name productoapi -v <<path_to_the_proyect>>:/home/proyectox --link db-proyectox:db-proyectox shinkei/proyectox:alpha python /home/proyectox/ProductAPI/product_api.py
+
+command to excecute the curl commands
+> docker exec -it productapi bash
