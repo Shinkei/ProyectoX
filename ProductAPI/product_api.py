@@ -103,11 +103,11 @@ class ProductAPI(Resource):
         try:
             args = self.reqparse.parse_args()
             product = Product.objects.get(id=ObjectId(id))
-            product.name = args.json['name']
-            product.product_type = args.json['product_type']
-            product.description = (args.json['description'] if 'description'
-                                   in args.json else product.description)
-            product.price = (args.json['price'] if 'price' in args.json
+            product.name = args['name']
+            product.product_type = args['product_type']
+            product.description = (args['description'] if 'description'
+                                   in args else product.description)
+            product.price = (args['price'] if 'price' in args
                              else product.price)
             product.save()
             return {'product': marshal(product, product_fields)}
@@ -127,9 +127,9 @@ class ProductAPI(Resource):
         except:
             abort(500)
 
-api.add_resource(ProductListAPI, '/proyectox/v1/products', endpoint='products')
+api.add_resource(ProductListAPI, '/proyectox/v2/products', endpoint='products')
 api.add_resource(ProductAPI, '/proyectox/v2/products/<string:id>',
-                 endpoint='products')
+                 endpoint='product')
 
 if __name__ == '__main__':
     app.run(debug=True)

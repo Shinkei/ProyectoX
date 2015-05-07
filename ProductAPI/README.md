@@ -36,8 +36,21 @@ echo -e "\n# virtualenvwrapper\nsource /usr/local/bin/virtualenvwrapper.sh" >> ~
 command to build the docker image for the product's application
 > docker build -t shinkei/proyectox:alpha .
 
+command to create the container and use bash to run the requirements file (we do this way to apply the DRY principle)
+> docker run -i -t --name productapi -v <<path_to_the_proyect>>:/home/proyectox shinkei/proyectox:alpha /bin/bash
+  #in the bash console run
+  cd /home/proyectoX/ProductAPI
+  pip install -r requirements.txt
+  exit
+
+command to save the image with the changes done in the previous step
+>1. check the container id  
+  docker ps -l  
+2. save the container into the image  
+  docker commit <<3 first numbers of the image id>> shinkei/proyectox:alpha
+
 command to run the database and prepare the linking
-> docker run -d --name db mongo
+> docker run --name db-proyectox -v <<path to save the database>>:/data -d mongo mongod
 
 command to start the application and linked it with the database container
-> docker run -d -P --name productoapi -v <<path_to_the_proyect>>:/home/proyectox --link db:db shinkei/proyectox /bin/bash
+> docker run -d -p 5000:5000 --name productoapi -v <<path_to_the_proyect>>:/home/proyectox --link db-proyectox:db-proyectox shinkei/proyectox:alpha python /home/proyectox/ProductAPI/product_api.py
