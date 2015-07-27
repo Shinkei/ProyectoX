@@ -57,3 +57,21 @@ command to start the application and linked it with the database container
 
 command to excecute the curl commands
 > docker exec -it productapi bash
+
+
+#Database objects
+
+#Store
+- Name (String)
+- Address (String)
+- Phone (String)
+- Owner (String) (so far the owner is a name)
+- Geolocation  (String)
+
+#Product
+- Name (String)
+- Type (String) (so far the type is a name)
+- Store (String / ObjectId) (The id of the store)
+- Price (Double)
+- Quantity (Int)
+- Image (String) (so far the image is an url)
