@@ -1,25 +1,12 @@
 # -*- coding: utf-8 -*-
 # !flask/bin/python
-from app import auth, api, app
+from app import auth, api
 from models import Product
 
 from bson.objectid import ObjectId
-from flask import jsonify, abort, make_response
+from flask import abort
 from flask.ext.restful import Resource, reqparse, fields, marshal
 
-
-@auth.get_password
-def get_password(username):
-    if username == 'manito':
-        return 'proyectox'
-    return None
-
-
-@auth.error_handler
-def unauthorized():
-    # return 403 instead of 401 to prevent browsers from displaying the default
-    # auth dialog
-    return make_response(jsonify({'message': 'Unauthorized access'}), 403)
 
 product_fields = {
     'id': fields.String,
@@ -130,6 +117,3 @@ class ProductAPI(Resource):
 api.add_resource(ProductListAPI, '/proyectox/v2/products', endpoint='products')
 api.add_resource(ProductAPI, '/proyectox/v2/products/<string:id>',
                  endpoint='product')
-
-if __name__ == '__main__':
-    app.run(debug=True)
