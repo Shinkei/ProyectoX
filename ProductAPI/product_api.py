@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # !flask/bin/python
-from app import auth, api
+from app import auth
 from models import Product
 
 from bson.objectid import ObjectId
@@ -113,7 +113,3 @@ class ProductAPI(Resource):
             abort(404)
         except:
             abort(500)
-
-api.add_resource(ProductListAPI, '/proyectox/v2/products', endpoint='products')
-api.add_resource(ProductAPI, '/proyectox/v2/products/<string:id>',
-                 endpoint='product')

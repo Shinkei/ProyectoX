@@ -3,12 +3,11 @@
 import settings
 
 from flask import Flask, jsonify, make_response
-from flask.ext.restful import Api
+
 from flask.ext.httpauth import HTTPBasicAuth
 from flask.ext.mongoengine import MongoEngine
 
 app = Flask(__name__, static_url_path="")
-api = Api(app)
 auth = HTTPBasicAuth()
 
 
@@ -27,10 +26,7 @@ def unauthorized():
 
 
 # Mongo configuration
-app.config['MONGODB_SETTINGS'] = {'db': settings.DATABASE, 'host':'mongodb://172.17.0.7:27017/productsAPI'}
+app.config['MONGODB_SETTINGS'] = {'db': settings.DATABASE, 'host':'mongodb://localhost:27017/productsAPI'}#'host':'mongodb://172.17.0.7:27017/productsAPI'}
 app.config['SECRET_KEY'] = "s3cr3tk3y"
 
 db = MongoEngine(app)
-
-if __name__ == '__main__':
-    app.run(debug=True)
