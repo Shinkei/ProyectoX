@@ -33,7 +33,9 @@ class StoreListAPI(Resource):
                                    location='json')
         self.reqparse.add_argument('owner', type=str, default="",
                                    location='json')
-        self.reqparse.add_argument('geolocation', type=str, default=0,
+        self.reqparse.add_argument('geolocation', type=str, default="",
+                                   location='json')
+        self.reqparse.add_argument('phone', type=str, default="",
                                    location='json')
         super(StoreListAPI, self).__init__()
 
@@ -49,9 +51,10 @@ class StoreListAPI(Resource):
             args = self.reqparse.parse_args()
             store = Store(
                 name=args['name'],
-                product_type=args['product_type'],
-                description=args['description'],
-                price=args['price']
+                address=args['address'],
+                phone=args['phone'],
+                owner=args['owner'],
+                geolocation=args['geolocation']
             )
             store.save()
             return {'store': marshal(store, store_fields)}, 201
@@ -68,10 +71,10 @@ class StoreAPI(Resource):
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
         self.reqparse.add_argument('name', type=str, required=True,
-                                   help='No task title provided',
+                                   help='No store name provided',
                                    location='json')
-        self.reqparse.add_argument('product_type', type=str, required=True,
-                                   location='json')
+        # self.reqparse.add_argument('product_type', type=str, required=True,
+        #                            location='json')
         super(StoreAPI, self).__init__()
 
     def get(self, id):

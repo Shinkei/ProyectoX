@@ -11,9 +11,12 @@ from flask.ext.restful import Resource, reqparse, fields, marshal
 product_fields = {
     'id': fields.String,
     'name': fields.String,
+    'store': fields.String,
     'product_type': fields.String,
     'description': fields.String,
-    'price': fields.Float
+    'price': fields.Float,
+    'quantity': fields.Integer,
+    'image': fields.String
 }
 
 
@@ -34,6 +37,12 @@ class ProductListAPI(Resource):
         self.reqparse.add_argument('description', type=str, default="",
                                    location='json')
         self.reqparse.add_argument('price', type=int, default=0,
+                                   location='json')
+        self.reqparse.add_argument('store', type=str, default=0, required=True,
+                                   location='json')
+        self.reqparse.add_argument('quantity', type=int, default=0,
+                                   location='json')
+        self.reqparse.add_argument('image', type=str, default="",
                                    location='json')
         super(ProductListAPI, self).__init__()
 
