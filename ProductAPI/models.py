@@ -8,7 +8,7 @@ class Store(db.Document):
     address = db.StringField(max_length=255, required=True)
     phone = db.StringField(max_length=15, required=True)
     owner = db.StringField(max_length=255, required=True)
-    geolocation = db.StringField(max_length=255, required=True)
+    geolocation = db.GeoPointField(required=True)
 
 
 class Product(db.Document):

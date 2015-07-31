@@ -99,7 +99,7 @@ class StoreAPI(Resource):
                            in args else store.phone)
             store.owner = (args['owner'] if 'owner' in args
                            else store.owner)
-            store.geolocation = (args['geolocation'] if 'geolocationgeolocation' in args
+            store.geolocation = (args['geolocation'] if 'geolocation' in args
                                  else store.geolocation)
             store.save()
             return {'store': marshal(store, store_fields)}

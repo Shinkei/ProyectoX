@@ -60,7 +60,10 @@ class ProductListAPI(Resource):
                 name=args['name'],
                 product_type=args['product_type'],
                 description=args['description'],
-                price=args['price']
+                price=args['price'],
+                store=args['store'],
+                quantity=args['quantity'],
+                image=args['image']
             )
             product.save()
             return {'product': marshal(product, product_fields)}, 201
@@ -80,6 +83,10 @@ class ProductAPI(Resource):
                                    help='No task title provided',
                                    location='json')
         self.reqparse.add_argument('product_type', type=str, required=True,
+                                   location='json')
+        self.reqparse.add_argument('store', type=str, required=True,
+                                   location='json')
+        self.reqparse.add_argument('quantity', type=int, required=True,
                                    location='json')
         super(ProductAPI, self).__init__()
 
@@ -105,6 +112,10 @@ class ProductAPI(Resource):
                                    in args else product.description)
             product.price = (args['price'] if 'price' in args
                              else product.price)
+            product.store = args['store']
+            product.quantity = args['quantity']
+            product.image = (args['image'] if 'image'
+                                   in args else product.image)
             product.save()
             return {'product': marshal(product, product_fields)}
         except Product.DoesNotExist:
