@@ -1,32 +1,22 @@
 # -*- coding: utf-8 -*-
 # !flask/bin/python
-from app import auth, api, app
+from app import auth
 from models import Product
 
 from bson.objectid import ObjectId
-from flask import jsonify, abort, make_response
+from flask import abort
 from flask.ext.restful import Resource, reqparse, fields, marshal
 
-
-@auth.get_password
-def get_password(username):
-    if username == 'manito':
-        return 'proyectox'
-    return None
-
-
-@auth.error_handler
-def unauthorized():
-    # return 403 instead of 401 to prevent browsers from displaying the default
-    # auth dialog
-    return make_response(jsonify({'message': 'Unauthorized access'}), 403)
 
 product_fields = {
     'id': fields.String,
     'name': fields.String,
+    'store': fields.String,
     'product_type': fields.String,
     'description': fields.String,
-    'price': fields.Float
+    'price': fields.Float,
+    'quantity': fields.Integer,
+    'image': fields.String
 }
 
 
@@ -48,6 +38,12 @@ class ProductListAPI(Resource):
                                    location='json')
         self.reqparse.add_argument('price', type=int, default=0,
                                    location='json')
+        self.reqparse.add_argument('store', type=str, default=0, required=True,
+                                   location='json')
+        self.reqparse.add_argument('quantity', type=int, default=0,
+                                   location='json')
+        self.reqparse.add_argument('image', type=str, default="",
+                                   location='json')
         super(ProductListAPI, self).__init__()
 
     def get(self):
@@ -64,7 +60,10 @@ class ProductListAPI(Resource):
                 name=args['name'],
                 product_type=args['product_type'],
                 description=args['description'],
-                price=args['price']
+                price=args['price'],
+                store=args['store'],
+                quantity=args['quantity'],
+                image=args['image']
             )
             product.save()
             return {'product': marshal(product, product_fields)}, 201
@@ -84,6 +83,10 @@ class ProductAPI(Resource):
                                    help='No task title provided',
                                    location='json')
         self.reqparse.add_argument('product_type', type=str, required=True,
+                                   location='json')
+        self.reqparse.add_argument('store', type=str, required=True,
+                                   location='json')
+        self.reqparse.add_argument('quantity', type=int, required=True,
                                    location='json')
         super(ProductAPI, self).__init__()
 
@@ -109,6 +112,10 @@ class ProductAPI(Resource):
                                    in args else product.description)
             product.price = (args['price'] if 'price' in args
                              else product.price)
+            product.store = args['store']
+            product.quantity = args['quantity']
+            product.image = (args['image'] if 'image'
+                                   in args else product.image)
             product.save()
             return {'product': marshal(product, product_fields)}
         except Product.DoesNotExist:
@@ -126,10 +133,3 @@ class ProductAPI(Resource):
             abort(404)
         except:
             abort(500)
-
-api.add_resource(ProductListAPI, '/proyectox/v2/products', endpoint='products')
-api.add_resource(ProductAPI, '/proyectox/v2/products/<string:id>',
-                 endpoint='product')
-
-if __name__ == '__main__':
-    app.run(debug=True)
